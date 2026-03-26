@@ -1,572 +1,352 @@
 # My-sagun-
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Love Sagun My Bestfriend 💕</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For Sagun 💕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+        body { font-family: 'Lora', serif; overflow: hidden; height: 100vh; display: flex; align-items: center; justify-content: center; background: #fce4ec; }
+        
+        /* Backgrounds */
+        #bg { position: fixed; inset: 0; background: linear-gradient(135deg, #fce4ec, #f3e5f5, #e3f2fd, #fce4ec); background-size: 400% 400%; animation: grad 15s ease infinite; transition: opacity 1s; z-index: 0; }
+        #bg-sad { position: fixed; inset: 0; background: linear-gradient(135deg, #161625, #22223b, #161625); opacity: 0; transition: opacity 1s; z-index: 1; }
+        @keyframes grad { 0% {background-position: 0% 50%} 50% {background-position: 100% 50%} 100% {background-position: 0% 50%} }
 
-    :root {
-      --pink:   #f9a8d4;
-      --rose:   #fb7185;
-      --lilac:  #c084fc;
-      --blue:   #93c5fd;
-      --soft:   #fce7f3;
-    }
+        /* Particles */
+        canvas, #hearts-container { position: fixed; inset: 0; pointer-events: none; z-index: 2; }
+        .fheart { position: absolute; bottom: -50px; opacity: 0; animation: floatUp linear forwards; }
+        @keyframes floatUp { 0% { transform: translateY(0) scale(0.8); opacity: 0; } 10% { opacity: 0.8; } 100% { transform: translateY(-110vh) scale(1.2); opacity: 0; } }
 
-    /* ── BODY ── */
-    body {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      font-family: 'Lora', Georgia, serif;
-      transition: background 1.2s ease;
-    }
+        /* Card Setup */
+        #stage { position: relative; z-index: 10; padding: 1.5rem; width: 100%; max-width: 550px; perspective: 1000px; }
+        .glass-card { background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.6); border-radius: 24px; padding: 3rem 2rem; text-align: center; box-shadow: 0 15px 35px rgba(244, 114, 182, 0.2); transition: all 0.5s; position: relative; min-height: 300px; display: flex; flex-direction: column; justify-content: center; }
+        .glass-card.sad-mode { background: rgba(30, 30, 45, 0.7); border-color: rgba(100, 100, 140, 0.3); box-shadow: 0 15px 35px rgba(0,0,0,0.5); color: #cbd5e1; }
+        
+        /* Scenes */
+        .scene { display: none; opacity: 0; transition: opacity 0.5s; }
+        .scene.active { display: block; opacity: 1; }
 
-    /* ── GRADIENT BG ── */
-    #bg {
-      position: fixed; inset: 0; z-index: 0;
-      background: linear-gradient(135deg, #fce4ec, #f3e5f5, #e3f2fd, #fce4ec);
-      background-size: 400% 400%;
-      animation: gradShift 12s ease infinite;
-    }
-    @keyframes gradShift {
-      0%   { background-position: 0% 50%; }
-      50%  { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+        /* Typography */
+        h1, h2 { font-family: 'Playfair Display', serif; line-height: 1.3; color: #7c3f6b; margin-bottom: 1rem; }
+        .glass-card.sad-mode h2 { color: #cbd5e1; }
+        p { color: #9d6080; font-size: 1.1rem; margin-bottom: 2rem; }
+        .glass-card.sad-mode p { color: #94a3b8; }
+        .emoji-large { font-size: 4rem; display: block; margin-bottom: 1rem; animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-    /* ── SAD BG ── */
-    #bg.sad {
-      background: linear-gradient(135deg, #1e1e2e, #2d2d44, #1e1e2e) !important;
-      animation: none;
-    }
+        .redirect-note { font-size: 0.9rem !important; font-style: italic; color: #64748b !important; margin-top: 1rem; }
+        .expanded-msg { font-size: 1.15rem; line-height: 1.7; color: #7c3f6b; margin-bottom: 1.5rem; font-style: italic; padding: 0 1rem; }
 
-    /* ── FLOATING HEARTS ── */
-    #hearts-layer {
-      position: fixed; inset: 0; z-index: 1;
-      pointer-events: none; overflow: hidden;
-    }
-    .fheart {
-      position: absolute;
-      bottom: -60px;
-      font-size: 1.4rem;
-      opacity: 0;
-      animation: floatUp linear infinite;
-      user-select: none;
-    }
-    @keyframes floatUp {
-      0%   { transform: translateY(0) rotate(-10deg) scale(0.8); opacity: 0; }
-      10%  { opacity: 0.7; }
-      90%  { opacity: 0.4; }
-      100% { transform: translateY(-110vh) rotate(15deg) scale(1.1); opacity: 0; }
-    }
+        /* Buttons */
+        .btn-wrap { position: relative; display: flex; justify-content: center; gap: 1rem; align-items: center; min-height: 60px; }
+        .btn { padding: 0.8rem 1.8rem; border-radius: 50px; font-family: inherit; font-size: 1rem; font-weight: bold; cursor: pointer; border: none; transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); }
+        .btn-yes { background: linear-gradient(135deg, #fb7185, #f472b6); color: white; box-shadow: 0 5px 15px rgba(251, 113, 133, 0.4); z-index: 5; }
+        .btn-no { background: rgba(255,255,255,0.7); color: #9d6080; border: 1px solid #f472b6; position: relative; z-index: 4; }
+        
+        /* Button States */
+        .btn-yes.bigger { transform: scale(1.3); box-shadow: 0 10px 25px rgba(251, 113, 133, 0.6); }
+        .btn-no.tiny { transform: scale(0.6); opacity: 0.8; }
+        .btn-yes.massive { transform: scale(1.6); width: 100%; padding: 1.2rem; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1.6); } 50% { transform: scale(1.65); box-shadow: 0 15px 40px rgba(251, 113, 133, 0.8); } }
 
-    /* ── CONFETTI CANVAS ── */
-    #confetti-canvas {
-      position: fixed; inset: 0; z-index: 3;
-      pointer-events: none;
-    }
+        /* Timer */
+        #timer { font-size: 4rem; font-family: 'Playfair Display', serif; color: #fb7185; font-weight: bold; }
+        
+        /* Typing */
+        #typing-text { font-size: 1.2rem; line-height: 1.6; color: #7c3f6b; display: inline; }
+        .cursor { display: inline-block; width: 2px; height: 1.2em; background: #fb7185; animation: blink 0.7s infinite; vertical-align: middle; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-    /* ── CARD WRAPPER ── */
-    #stage {
-      position: relative; z-index: 4;
-      display: flex; align-items: center; justify-content: center;
-      width: 100%; padding: 1.5rem;
-    }
-
-    /* ── GLASS CARD ── */
-    .card {
-      background: rgba(255, 255, 255, 0.38);
-      backdrop-filter: blur(22px) saturate(180%);
-      -webkit-backdrop-filter: blur(22px) saturate(180%);
-      border: 1.5px solid rgba(255, 255, 255, 0.6);
-      border-radius: 28px;
-      padding: 3rem 3.2rem 2.6rem;
-      max-width: 520px; width: 100%;
-      box-shadow:
-        0 8px 40px rgba(244, 114, 182, 0.22),
-        0 2px 8px rgba(0,0,0,0.06),
-        inset 0 1px 0 rgba(255,255,255,0.7);
-      text-align: center;
-      animation: cardIn 0.9s cubic-bezier(.22,1,.36,1) both;
-    }
-    @keyframes cardIn {
-      from { opacity: 0; transform: translateY(40px) scale(0.95); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    /* ── PHASE 1 ── */
-    #phase1 .eyebrow {
-      font-family: 'Lora', serif;
-      font-style: italic;
-      font-size: 0.9rem;
-      letter-spacing: 0.12em;
-      color: var(--rose);
-      text-transform: uppercase;
-      margin-bottom: 0.8rem;
-    }
-    #phase1 h1 {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: clamp(1.6rem, 5vw, 2.2rem);
-      font-weight: 700;
-      line-height: 1.25;
-      color: #7c3f6b;
-      margin-bottom: 0.5rem;
-    }
-    #phase1 h1 span { color: var(--rose); font-style: italic; }
-    #phase1 .subtitle {
-      font-size: 0.95rem;
-      color: #9d6080;
-      margin-bottom: 2.2rem;
-      font-style: italic;
-    }
-    .btn-row {
-      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
-    }
-    .btn {
-      padding: 0.75rem 1.8rem;
-      border-radius: 50px;
-      border: none; cursor: pointer;
-      font-family: 'Lora', serif;
-      font-size: 1rem;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      transition: transform 0.18s, box-shadow 0.18s, filter 0.18s;
-      position: relative; overflow: hidden;
-    }
-    .btn::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: rgba(255,255,255,0.18);
-      opacity: 0; transition: opacity 0.2s;
-      border-radius: inherit;
-    }
-    .btn:hover::after { opacity: 1; }
-    .btn:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 8px 24px rgba(251,113,133,0.35); }
-    .btn:active { transform: scale(0.97); }
-
-    .btn-yes {
-      background: linear-gradient(135deg, #f472b6, #fb7185);
-      color: #fff;
-      box-shadow: 0 4px 18px rgba(244,114,182,0.4);
-    }
-    .btn-no {
-      background: rgba(255,255,255,0.55);
-      color: #9d6080;
-      border: 1.5px solid rgba(244,114,182,0.4);
-      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-    }
-    .btn-no:hover { box-shadow: 0 8px 24px rgba(148,163,184,0.3); }
-
-    /* ── PHASE 2: SAD ── */
-    #phase-sad { display: none; }
-    #phase-sad.show { display: block; }
-
-    #phase-sad .cry-emoji {
-      font-size: 4.5rem;
-      display: block;
-      animation: cryBob 1.4s ease-in-out infinite;
-      margin-bottom: 1rem;
-      transition: all 0.3s;
-    }
-    #phase-sad .cry-emoji.switch {
-      animation: emojiSwitch 0.4s cubic-bezier(.22,1,.36,1) both;
-    }
-    @keyframes emojiSwitch {
-      0%   { transform: scale(0) rotate(-30deg); opacity: 0; }
-      60%  { transform: scale(1.3) rotate(8deg); opacity: 1; }
-      100% { transform: scale(1) rotate(0deg); opacity: 1; }
-    }
-    @keyframes cryBob {
-      0%, 100% { transform: translateY(0) rotate(-4deg); }
-      50%       { transform: translateY(-8px) rotate(4deg); }
-    }
-    #phase-sad h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.25rem, 4vw, 1.7rem);
-      color: #a0aec0;
-      margin-bottom: 0.5rem;
-      line-height: 1.35;
-    }
-    #phase-sad .sad-sub {
-      font-size: 0.88rem;
-      color: #718096;
-      font-style: italic;
-      margin-bottom: 0.4rem;
-    }
-    #phase-sad .funny-line {
-      font-size: 0.85rem;
-      color: #94a3b8;
-      font-style: italic;
-      margin-top: 0.3rem;
-    }
-    #phase-sad .redirect-note {
-      font-size: 0.78rem;
-      color: #64748b;
-      margin-top: 1rem;
-      font-style: italic;
-      opacity: 0;
-      transition: opacity 0.6s;
-    }
-    #phase-sad .redirect-note.visible { opacity: 1; }
-
-    .card.sad-card {
-      background: rgba(30, 30, 46, 0.65);
-      border-color: rgba(100,100,140,0.3);
-      box-shadow: 0 8px 40px rgba(0,0,0,0.4);
-    }
-
-    /* tear drops */
-    .tears { position: relative; height: 48px; margin: 1.2rem auto 0; width: 60px; }
-    .tear {
-      position: absolute;
-      width: 7px; height: 14px;
-      background: #93c5fd;
-      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-      opacity: 0;
-      animation: tearFall 1.8s ease-in infinite;
-    }
-    .tear:nth-child(1) { left: 8px;  animation-delay: 0s; }
-    .tear:nth-child(2) { left: 28px; animation-delay: 0.6s; }
-    .tear:nth-child(3) { left: 48px; animation-delay: 1.1s; }
-    @keyframes tearFall {
-      0%   { opacity: 0; transform: translateY(0); }
-      20%  { opacity: 0.9; }
-      100% { opacity: 0; transform: translateY(38px); }
-    }
-
-    /* ── PHASE 2: YES ── */
-    #phase-yes { display: none; }
-    #phase-yes.show { display: block; }
-
-    .card.yes-card {
-      background: rgba(255,255,255,0.48);
-      border-color: rgba(255,255,255,0.75);
-      box-shadow:
-        0 8px 48px rgba(244,114,182,0.3),
-        0 2px 8px rgba(0,0,0,0.06),
-        inset 0 1px 0 rgba(255,255,255,0.8);
-      animation: cardIn 0.7s cubic-bezier(.22,1,.36,1) both, glowPulse 3s ease-in-out 0.7s infinite;
-    }
-    @keyframes glowPulse {
-      0%,100% { box-shadow: 0 8px 48px rgba(244,114,182,0.3), 0 2px 8px rgba(0,0,0,0.06); }
-      50%     { box-shadow: 0 12px 64px rgba(244,114,182,0.55), 0 4px 16px rgba(0,0,0,0.08); }
-    }
-
-    #phase-yes .yay-emoji {
-      font-size: 3.8rem;
-      display: block;
-      margin-bottom: 0.6rem;
-      animation: yayPop 0.5s cubic-bezier(.22,1,.36,1) both;
-    }
-    @keyframes yayPop {
-      from { transform: scale(0); opacity: 0; }
-      to   { transform: scale(1); opacity: 1; }
-    }
-
-    #phase-yes h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.5rem, 5vw, 2rem);
-      color: #7c3f6b;
-      margin-bottom: 0.5rem;
-      line-height: 1.3;
-    }
-    #phase-yes h2 span { color: var(--rose); font-style: italic; }
-    #phase-yes .yes-msg {
-      font-size: 1rem;
-      color: #9d6080;
-      line-height: 1.7;
-      margin-bottom: 1.6rem;
-    }
-
-    /* heartbeat big */
-    .big-heart {
-      display: inline-block;
-      font-size: 3rem;
-      animation: heartbeat 0.9s ease-in-out infinite;
-      transform-origin: center;
-    }
-    @keyframes heartbeat {
-      0%   { transform: scale(1); }
-      14%  { transform: scale(1.22); }
-      28%  { transform: scale(1); }
-      42%  { transform: scale(1.18); }
-      70%  { transform: scale(1); }
-      100% { transform: scale(1); }
-    }
-
-    .love-row {
-      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-      margin-top: 0.3rem;
-    }
-    .love-row span {
-      font-family: 'Lora', serif;
-      font-style: italic;
-      color: var(--rose);
-      font-size: 1rem;
-    }
-
-    /* small sparkles */
-    .sparkles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: 28px; }
-    .sparkle {
-      position: absolute;
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--pink);
-      animation: sparklePop 2.4s ease-in-out infinite;
-      opacity: 0;
-    }
-    @keyframes sparklePop {
-      0%,100% { opacity: 0; transform: scale(0); }
-      50%     { opacity: 0.8; transform: scale(1); }
-    }
-
-    /* ── MOBILE ── */
-    @media (max-width: 480px) {
-      .card { padding: 2.2rem 1.8rem 2rem; }
-      .btn  { padding: 0.7rem 1.4rem; font-size: 0.93rem; }
-    }
-  </style>
+        /* Finale */
+        .big-heart { font-size: 5rem; animation: beat 1s infinite; margin-bottom: 1rem; display: block; filter: drop-shadow(0 0 15px rgba(251,113,133,0.5)); }
+        @keyframes beat { 0%, 100% { transform: scale(1); } 15% { transform: scale(1.2); } 30% { transform: scale(1); } 45% { transform: scale(1.15); } }
+        
+    </style>
 </head>
 <body>
 
-<div id="bg"></div>
-<div id="hearts-layer"></div>
-<canvas id="confetti-canvas"></canvas>
+    <div id="bg"></div>
+    <div id="bg-sad"></div>
+    <div id="hearts-container"></div>
+    <canvas id="canvas"></canvas>
 
-<div id="stage">
+    <div id="stage">
+        <div class="glass-card" id="card">
+            
+            <!-- SCENE 1, 4, 6: Main Question -->
+            <div id="scene-question" class="scene active">
+                <h1>I have a question<br>for you, <span style="color:#fb7185; font-style:italic;">Sagun</span>...</h1>
+                <p id="question-sub">Think carefully before you answer 🌸</p>
+                <div class="btn-wrap">
+                    <button id="btn-yes" class="btn btn-yes">Yes, I love you!</button>
+                    <button id="btn-no" class="btn btn-no">No, I don't.</button>
+                </div>
+            </div>
 
-  <!-- Phase 1: The Question -->
-  <div class="card" id="card-main">
-    <div id="phase1">
-      <p class="eyebrow">✦ a little note for you ✦</p>
-      <h1>I have a question<br>for you, <span>Sagun</span>...</h1>
-      <p class="subtitle">Think carefully before you answer 🌸</p>
-      <div class="btn-row">
-        <button class="btn btn-yes" id="btn-yes">💕 Yes, I love you!</button>
-        <button class="btn btn-no"  id="btn-no">No, I don't.</button>
-      </div>
+            <!-- SCENE 2 & 5: Sad Screens -->
+            <div id="scene-sad" class="scene">
+                <span class="emoji-large">😢</span>
+                <h2 id="sad-text">Oh no... my heart is<br>shattered, Sagun. 💔</h2>
+                <p id="sad-redirect" class="redirect-note">ok ok... taking you back in 3 seconds 🥰</p>
+            </div>
+
+            <!-- SCENE 3: Timer -->
+            <div id="scene-timer" class="scene">
+                <h2>Sorry to annoy you too much, but I'm not giving up...</h2>
+                <div id="timer">6</div>
+            </div>
+
+            <!-- SCENE 7: Yes Eruption -->
+            <div id="scene-yes" class="scene">
+                <span class="emoji-large">🎉</span>
+                <h2>Yay! This makes me so<br>incredibly happy, Sagun!</h2>
+                <button id="btn-secret" class="btn btn-yes" style="margin-top: 1rem;">Click for a secret...</button>
+            </div>
+
+            <!-- SCENE 8: Appreciation -->
+            <div id="scene-appreciation" class="scene">
+                <div style="min-height: 120px; text-align: left; margin-bottom: 1.5rem;">
+                    <span id="typing-text"></span><span class="cursor"></span>
+                </div>
+                <button id="btn-more" class="btn btn-yes" style="display: none; width: 100%;">One more thing...</button>
+            </div>
+
+            <!-- SCENE 8.5: The Apology -->
+            <div id="scene-apology" class="scene">
+                <h2>I'm sorry! 🥺</h2>
+                <p>First of all, I'm sorry for annoying you so much with all those useless things I love you my sweetheart and thanks for understanding me... you know I just love you!</p>
+                <button id="btn-real-msg" class="btn btn-yes" style="width: 100%;">Show me the real message 💕</button>
+            </div>
+
+            <!-- SCENE 9: Finale (Expanded) -->
+            <div id="scene-finale" class="scene">
+                <span class="big-heart">❤️</span>
+                <p class="expanded-msg">You are my best friend, my safe place, and the most beautiful part of my life. Every single day with you is a gift, and I can't wait to spend the rest of my life making you smile.</p>
+                <h2>One day, I'm gonna marry you, Sagun. 💍</h2>
+            </div>
+
+        </div>
     </div>
 
-    <!-- Phase 2: Sad -->
-    <div id="phase-sad">
-      <span class="cry-emoji" id="sad-emoji">😢</span>
-      <h2>Oh no... my heart is<br>shattered, <em>Sagun.</em> 💔</h2>
-      <p class="sad-sub">SAGUN. WHAT DO YOU MEAN NO?! 😭</p>
-      <p class="funny-line">"No, I don't." — said no one with good taste, ever.</p>
-      <p class="funny-line">Even my WiFi has more signal than your answer. 📶</p>
-      <div class="tears">
-        <div class="tear"></div>
-        <div class="tear"></div>
-        <div class="tear"></div>
-      </div>
-      <p class="redirect-note" id="redirect-note">ok ok... taking you back in 3 seconds 🥰</p>
-    </div>
+    <script>
+        // --- Elements ---
+        const card = document.getElementById('card');
+        const bgSad = document.getElementById('bg-sad');
+        const sQuestion = document.getElementById('scene-question');
+        const sSad = document.getElementById('scene-sad');
+        const sTimer = document.getElementById('scene-timer');
+        const sYes = document.getElementById('scene-yes');
+        const sApprec = document.getElementById('scene-appreciation');
+        const sApology = document.getElementById('scene-apology');
+        const sFinale = document.getElementById('scene-finale');
+        
+        const btnYes = document.getElementById('btn-yes');
+        const btnNo = document.getElementById('btn-no');
+        const subtitle = document.getElementById('question-sub');
+        const sadText = document.getElementById('sad-text');
+        const sadRedirect = document.getElementById('sad-redirect');
+        const timerEl = document.getElementById('timer');
+        
+        let attempt = 1;
 
-    <!-- Phase 3: Yes! -->
-    <div id="phase-yes">
-      <div class="sparkles" id="sparkles-container"></div>
-      <span class="yay-emoji">🎉</span>
-      <h2>Yay! This makes me so<br>incredibly happy, <span>Sagun!</span></h2>
-      <p class="yes-msg">
-        You're my favorite person in this whole wide world.<br>
-        Every day with you is my best day. 🌷
-      </p>
-      <div class="love-row">
-        <span>always &amp; forever</span>
-        <div class="big-heart">❤️</div>
-        <span>always &amp; forever</span>
-      </div>
-    </div>
-  </div>
+        // --- Helper: Switch Scenes ---
+        function showScene(sceneToShow) {
+            document.querySelectorAll('.scene').forEach(s => {
+                s.style.opacity = '0';
+                setTimeout(() => { s.classList.remove('active'); s.style.display = 'none'; }, 500);
+            });
+            setTimeout(() => {
+                sceneToShow.style.display = 'block';
+                setTimeout(() => { sceneToShow.classList.add('active'); sceneToShow.style.opacity = '1'; }, 50);
+            }, 500);
+        }
 
-</div>
+        function toggleSadTheme(isSad) {
+            bgSad.style.opacity = isSad ? '1' : '0';
+            isSad ? card.classList.add('sad-mode') : card.classList.remove('sad-mode');
+        }
 
-<script>
-  /* ─── FLOATING BACKGROUND HEARTS ─── */
-  const heartsLayer = document.getElementById('hearts-layer');
-  const heartEmojis = ['💕','🌸','✨','💗','🌷','💖','🫧','💝'];
-  function spawnHeart() {
-    const h = document.createElement('div');
-    h.className = 'fheart';
-    h.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
-    const left = Math.random() * 100;
-    const duration = 7 + Math.random() * 9;
-    const delay = Math.random() * 4;
-    const size = 0.8 + Math.random() * 1.2;
-    h.style.cssText = `left:${left}%;font-size:${size}rem;animation-duration:${duration}s;animation-delay:${delay}s;`;
-    heartsLayer.appendChild(h);
-    setTimeout(() => h.remove(), (duration + delay) * 1000 + 200);
-  }
-  for (let i = 0; i < 18; i++) setTimeout(spawnHeart, Math.random() * 5000);
-  setInterval(spawnHeart, 900);
+        // --- Runaway NO Button ---
+        function runaway() {
+            if(attempt >= 3) return;
+            btnNo.style.position = 'fixed';
+            const x = Math.random() * (window.innerWidth - btnNo.offsetWidth - 20) + 10;
+            const y = Math.random() * (window.innerHeight - btnNo.offsetHeight - 20) + 10;
+            btnNo.style.left = `${x}px`;
+            btnNo.style.top = `${y}px`;
+        }
+        btnNo.addEventListener('mouseover', runaway);
+        btnNo.addEventListener('touchstart', (e) => { e.preventDefault(); runaway(); });
 
-  /* ─── SPARKLES INSIDE YES CARD ─── */
-  function buildSparkles() {
-    const cont = document.getElementById('sparkles-container');
-    const colors = ['#f9a8d4','#fb7185','#c084fc','#fcd34d','#93c5fd'];
-    for (let i = 0; i < 14; i++) {
-      const s = document.createElement('div');
-      s.className = 'sparkle';
-      s.style.cssText = `
-        top:${Math.random()*100}%;left:${Math.random()*100}%;
-        background:${colors[i % colors.length]};
-        animation-delay:${Math.random()*2.4}s;
-        animation-duration:${1.8+Math.random()*1.6}s;
-        width:${4+Math.random()*6}px;height:${4+Math.random()*6}px;
-      `;
-      cont.appendChild(s);
-    }
-  }
+        // --- Clicking NO ---
+        btnNo.addEventListener('click', () => {
+            if (attempt === 1) {
+                // Scene 2: First Rejection
+                sadText.innerHTML = "Oh no... my heart is<br>shattered, Sagun. 💔";
+                sadRedirect.style.display = 'block'; // Show the "taking you back" text
+                toggleSadTheme(true);
+                showScene(sSad);
+                
+                setTimeout(() => {
+                    // Scene 3: Timer
+                    toggleSadTheme(false);
+                    showScene(sTimer);
+                    let left = 6;
+                    timerEl.innerText = left;
+                    const int = setInterval(() => {
+                        left--;
+                        timerEl.innerText = left;
+                        if(left <= 0) {
+                            clearInterval(int);
+                            // Setup Scene 4 (Attempt 2)
+                            attempt = 2;
+                            btnYes.classList.add('bigger');
+                            btnNo.classList.add('tiny');
+                            btnNo.style.position = 'relative'; btnNo.style.left = 'auto'; btnNo.style.top = 'auto';
+                            showScene(sQuestion);
+                        }
+                    }, 1000);
+                }, 3000);
+            } 
+            else if (attempt === 2) {
+                // Scene 5: Second Rejection
+                sadText.innerHTML = "Still no?! You are<br>breaking my heart! 😭";
+                sadRedirect.style.display = 'none'; // Hide redirect text this time
+                toggleSadTheme(true);
+                showScene(sSad);
 
-  /* ─── CONFETTI ENGINE ─── */
-  const canvas = document.getElementById('confetti-canvas');
-  const ctx    = canvas.getContext('2d');
-  let particles = [], animId = null, running = false;
+                setTimeout(() => {
+                    // Scene 6: Ultimatum (No button disappears, Yes takes over)
+                    toggleSadTheme(false);
+                    attempt = 3;
+                    btnNo.style.display = 'none';
+                    btnYes.classList.remove('bigger');
+                    btnYes.classList.add('massive');
+                    subtitle.innerHTML = "<strong style='font-size:1.3rem; color:#fb7185;'>You don't have any other choices! 🥺</strong>";
+                    showScene(sQuestion);
+                }, 3000);
+            }
+        });
 
-  function resizeCanvas() {
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  window.addEventListener('resize', resizeCanvas);
-  resizeCanvas();
+        // --- Clicking YES ---
+        btnYes.addEventListener('click', () => {
+            // Scene 7: Yes Eruption
+            btnNo.style.display = 'none';
+            showScene(sYes);
+            startParticles('confetti');
+        });
 
-  const COLORS = ['#f472b6','#fb7185','#c084fc','#fbbf24','#34d399','#60a5fa','#f9a8d4','#a78bfa'];
+        // --- Clicking Secret ---
+        document.getElementById('btn-secret').addEventListener('click', () => {
+            // Scene 8: Appreciation
+            showScene(sApprec);
+            startParticles('sparkles');
+            
+            setTimeout(() => {
+                const text = "Thank you for always understanding me. Thank you for loving me through it all, and for caring for me so deeply.";
+                const el = document.getElementById('typing-text');
+                let i = 0;
+                function type() {
+                    if (i < text.length) {
+                        el.innerHTML += text.charAt(i);
+                        i++;
+                        setTimeout(type, 60);
+                    } else {
+                        document.querySelector('.cursor').style.display = 'none';
+                        const btnMore = document.getElementById('btn-more');
+                        btnMore.style.display = 'block';
+                        setTimeout(() => btnMore.style.opacity = '1', 50);
+                    }
+                }
+                type();
+            }, 800);
+        });
 
-  function makeParticle(burst) {
-    const x = burst ? canvas.width / 2 : Math.random() * canvas.width;
-    const angle = burst
-      ? (Math.random() * Math.PI * 2)
-      : (Math.PI * 1.5 + (Math.random() - 0.5) * 0.6);
-    const speed = burst ? (4 + Math.random() * 12) : (2 + Math.random() * 5);
-    return {
-      x, y: burst ? canvas.height / 2 : -10,
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed,
-      color: COLORS[Math.floor(Math.random() * COLORS.length)],
-      size: 6 + Math.random() * 9,
-      rotation: Math.random() * 360,
-      rotSpeed: (Math.random() - 0.5) * 8,
-      alpha: 1,
-      shape: Math.random() < 0.38 ? 'heart' : (Math.random() < 0.5 ? 'circle' : 'rect'),
-      gravity: 0.18 + Math.random() * 0.12,
-      wobble: Math.random() * 0.06,
-      wobbleOffset: Math.random() * Math.PI * 2,
-      tick: 0
-    };
-  }
+        // --- Clicking "One more thing" ---
+        document.getElementById('btn-more').addEventListener('click', () => {
+            // Scene 8.5: The Apology
+            showScene(sApology);
+        });
 
-  function drawHeart(ctx, x, y, size) {
-    ctx.beginPath();
-    ctx.moveTo(x, y + size * 0.3);
-    ctx.bezierCurveTo(x, y, x - size * 0.7, y, x - size * 0.7, y + size * 0.4);
-    ctx.bezierCurveTo(x - size * 0.7, y + size * 0.9, x, y + size * 1.2, x, y + size * 1.4);
-    ctx.bezierCurveTo(x, y + size * 1.2, x + size * 0.7, y + size * 0.9, x + size * 0.7, y + size * 0.4);
-    ctx.bezierCurveTo(x + size * 0.7, y, x, y, x, y + size * 0.3);
-    ctx.fill();
-  }
+        // --- Clicking "Show me the real message" ---
+        document.getElementById('btn-real-msg').addEventListener('click', () => {
+            // Scene 9: Finale
+            showScene(sFinale);
+            spawnHearts(150); // Endless floating hearts
+        });
 
-  function tickConfetti() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles = particles.filter(p => p.alpha > 0.02 && p.y < canvas.height + 30);
-    particles.forEach(p => {
-      p.tick++;
-      p.x  += p.vx + Math.sin(p.wobbleOffset + p.tick * p.wobble) * 1.2;
-      p.vy += p.gravity;
-      p.vx *= 0.992;
-      p.y  += p.vy;
-      p.rotation += p.rotSpeed;
-      if (p.y > canvas.height * 0.6) p.alpha -= 0.013;
-      ctx.save();
-      ctx.globalAlpha = p.alpha;
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.rotation * Math.PI / 180);
-      ctx.fillStyle = p.color;
-      if (p.shape === 'heart') {
-        drawHeart(ctx, 0, -p.size * 0.7, p.size * 0.6);
-      } else if (p.shape === 'circle') {
-        ctx.beginPath(); ctx.arc(0, 0, p.size * 0.5, 0, Math.PI * 2); ctx.fill();
-      } else {
-        ctx.fillRect(-p.size * 0.3, -p.size * 0.6, p.size * 0.6, p.size);
-      }
-      ctx.restore();
-    });
-    if (running || particles.length > 0) animId = requestAnimationFrame(tickConfetti);
-    else { ctx.clearRect(0,0,canvas.width,canvas.height); }
-  }
 
-  function burstConfetti() {
-    for (let i = 0; i < 180; i++) particles.push(makeParticle(true));
-  }
-  function streamConfetti() {
-    if (!running) return;
-    for (let i = 0; i < 5; i++) particles.push(makeParticle(false));
-    setTimeout(streamConfetti, 90);
-  }
-  function startConfetti() {
-    running = true;
-    resizeCanvas();
-    burstConfetti();
-    streamConfetti();
-    if (animId) cancelAnimationFrame(animId);
-    tickConfetti();
-    setTimeout(() => { running = false; }, 6000);
-  }
+        // --- Particle Engine ---
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let pArray = [];
+        let mode = 'none'; // 'confetti' or 'sparkles'
+        
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize); resize();
 
-  /* ─── BUTTON LOGIC ─── */
-  const card      = document.getElementById('card-main');
-  const bg        = document.getElementById('bg');
-  const p1        = document.getElementById('phase1');
-  const pSad      = document.getElementById('phase-sad');
-  const pYes      = document.getElementById('phase-yes');
+        function startParticles(newMode) {
+            mode = newMode;
+            pArray = [];
+            for(let i=0; i<150; i++) {
+                pArray.push({
+                    x: canvas.width/2, y: canvas.height/2 + 50,
+                    r: Math.random() * 6 + 2,
+                    dx: Math.random() * 15 - 7.5,
+                    dy: Math.random() * -15 - 5,
+                    color: ['#fb7185', '#f472b6', '#c084fc', '#fcd34d', '#fff'][Math.floor(Math.random()*5)],
+                    alpha: 1
+                });
+            }
+            requestAnimationFrame(drawParticles);
+        }
 
-  document.getElementById('btn-yes').addEventListener('click', () => {
-    p1.style.display = 'none';
-    card.classList.add('yes-card');
-    pYes.classList.add('show');
-    buildSparkles();
-    startConfetti();
-  });
+        function drawParticles() {
+            if(mode === 'none') return;
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            pArray.forEach((p, i) => {
+                if(mode === 'confetti') {
+                    p.dy += 0.2; // Gravity
+                    p.x += p.dx; p.y += p.dy;
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(p.x, p.y, p.r*2, p.r);
+                } else if(mode === 'sparkles') {
+                    p.alpha -= 0.005;
+                    p.x += p.dx*0.2; p.y += p.dy*0.2;
+                    ctx.globalAlpha = Math.max(0, p.alpha);
+                    ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+                    ctx.fillStyle = '#fb7185'; ctx.fill();
+                    ctx.globalAlpha = 1;
+                }
+                // Recycle
+                if(p.y > canvas.height || p.alpha <= 0) {
+                    pArray[i] = { x: Math.random()*canvas.width, y: -20, r: p.r, dx: Math.random()*4-2, dy: Math.random()*5+2, color: p.color, alpha: 1 };
+                }
+            });
+            requestAnimationFrame(drawParticles);
+        }
 
-  document.getElementById('btn-no').addEventListener('click', () => {
-    p1.style.display = 'none';
-    bg.classList.add('sad');
-    card.classList.add('sad-card');
-    pSad.classList.add('show');
-    heartsLayer.style.display = 'none';
+        // Floating Hearts
+        const hContainer = document.getElementById('hearts-container');
+        function spawnHearts(intervalMs) {
+            const symbols = ['💕', '🌸', '✨', '💗', '💍'];
+            setInterval(() => {
+                const h = document.createElement('div');
+                h.className = 'fheart';
+                h.innerText = symbols[Math.floor(Math.random()*symbols.length)];
+                h.style.left = Math.random() * 100 + 'vw';
+                h.style.animationDuration = (Math.random() * 5 + 4) + 's';
+                h.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
+                hContainer.appendChild(h);
+                setTimeout(() => h.remove(), 9000);
+            }, intervalMs);
+        }
+        spawnHearts(1200); // Standard background hearts
 
-    const sadEmoji = document.getElementById('sad-emoji');
-    const redirectNote = document.getElementById('redirect-note');
-
-    // After 2s: swap 😢 → 🥰
-    setTimeout(() => {
-      sadEmoji.style.animation = 'none';
-      sadEmoji.textContent = '🥰';
-      sadEmoji.classList.add('switch');
-      redirectNote.classList.add('visible');
-    }, 2000);
-
-    // After 2s more: reset everything and go back to home
-    setTimeout(() => {
-      // hide sad, restore home
-      pSad.classList.remove('show');
-      bg.classList.remove('sad');
-      card.classList.remove('sad-card');
-      heartsLayer.style.display = '';
-      redirectNote.classList.remove('visible');
-      sadEmoji.textContent = '😢';
-      sadEmoji.classList.remove('switch');
-      sadEmoji.style.animation = '';
-      p1.style.display = 'block';
-    }, 4200);
-  });
-</script>
+    </script>
 </body>
 </html>
