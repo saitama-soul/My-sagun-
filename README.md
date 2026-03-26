@@ -1,5 +1,4 @@
 # My-sagun-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +22,7 @@
 
         /* Card Setup */
         #stage { position: relative; z-index: 10; padding: 1.5rem; width: 100%; max-width: 550px; perspective: 1000px; }
-        .glass-card { background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.6); border-radius: 24px; padding: 3rem 2rem; text-align: center; box-shadow: 0 15px 35px rgba(244, 114, 182, 0.2); transition: all 0.5s; position: relative; min-height: 300px; display: flex; flex-direction: column; justify-content: center; }
+        .glass-card { background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.6); border-radius: 24px; padding: 3rem 2rem; text-align: center; box-shadow: 0 15px 35px rgba(244, 114, 182, 0.2); transition: all 0.5s; position: relative; min-height: 300px; display: flex; flex-direction: column; justify-content: center; }
         .glass-card.sad-mode { background: rgba(30, 30, 45, 0.7); border-color: rgba(100, 100, 140, 0.3); box-shadow: 0 15px 35px rgba(0,0,0,0.5); color: #cbd5e1; }
         
         /* Scenes */
@@ -47,11 +46,11 @@
         .btn-yes { background: linear-gradient(135deg, #fb7185, #f472b6); color: white; box-shadow: 0 5px 15px rgba(251, 113, 133, 0.4); z-index: 5; }
         .btn-no { background: rgba(255,255,255,0.7); color: #9d6080; border: 1px solid #f472b6; position: relative; z-index: 4; }
         
-        /* Button States */
-        .btn-yes.bigger { transform: scale(1.3); box-shadow: 0 10px 25px rgba(251, 113, 133, 0.6); }
+        /* Button States (Mobile Safe) */
+        .btn-yes.bigger { transform: scale(1.25); box-shadow: 0 10px 25px rgba(251, 113, 133, 0.6); }
         .btn-no.tiny { transform: scale(0.6); opacity: 0.8; }
-        .btn-yes.massive { transform: scale(1.6); width: 100%; padding: 1.2rem; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0%, 100% { transform: scale(1.6); } 50% { transform: scale(1.65); box-shadow: 0 15px 40px rgba(251, 113, 133, 0.8); } }
+        .btn-yes.massive { width: 100%; padding: 1.5rem; font-size: 1.3rem; animation: pulseMassive 1.5s infinite; }
+        @keyframes pulseMassive { 0%, 100% { transform: scale(1); box-shadow: 0 10px 30px rgba(251, 113, 133, 0.6); } 50% { transform: scale(1.05); box-shadow: 0 15px 40px rgba(251, 113, 133, 0.9); } }
 
         /* Timer */
         #timer { font-size: 4rem; font-family: 'Playfair Display', serif; color: #fb7185; font-weight: bold; }
@@ -118,7 +117,7 @@
             <!-- SCENE 8.5: The Apology -->
             <div id="scene-apology" class="scene">
                 <h2>I'm sorry! 🥺</h2>
-                <p>First of all, I'm sorry for annoying you so much with all those useless things I love you my sweetheart and thanks for understanding me... you know I just love you!</p>
+                <p>First of all, I'm sorry for annoying you so much with all those stupid things and thanks for staying with me teaching me ... you know I just love you!</p>
                 <button id="btn-real-msg" class="btn btn-yes" style="width: 100%;">Show me the real message 💕</button>
             </div>
 
@@ -187,7 +186,7 @@
             if (attempt === 1) {
                 // Scene 2: First Rejection
                 sadText.innerHTML = "Oh no... my heart is<br>shattered, Sagun. 💔";
-                sadRedirect.style.display = 'block'; // Show the "taking you back" text
+                sadRedirect.style.display = 'block'; // Show redirect text
                 toggleSadTheme(true);
                 showScene(sSad);
                 
@@ -215,15 +214,15 @@
             else if (attempt === 2) {
                 // Scene 5: Second Rejection
                 sadText.innerHTML = "Still no?! You are<br>breaking my heart! 😭";
-                sadRedirect.style.display = 'none'; // Hide redirect text this time
+                sadRedirect.style.display = 'none'; // Hide redirect text
                 toggleSadTheme(true);
                 showScene(sSad);
 
                 setTimeout(() => {
-                    // Scene 6: Ultimatum (No button disappears, Yes takes over)
+                    // Scene 6: Ultimatum 
                     toggleSadTheme(false);
                     attempt = 3;
-                    btnNo.style.display = 'none';
+                    btnNo.style.display = 'none'; // The NO button officially vanishes
                     btnYes.classList.remove('bigger');
                     btnYes.classList.add('massive');
                     subtitle.innerHTML = "<strong style='font-size:1.3rem; color:#fb7185;'>You don't have any other choices! 🥺</strong>";
@@ -350,3 +349,4 @@
     </script>
 </body>
 </html>
+
